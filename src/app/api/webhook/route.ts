@@ -24,7 +24,7 @@ export async function POST(req: Request) {
       if (process.env.GEMINI_API_KEY) {
         console.log(`\n🧠 Conectando con Gemini (Google) para redactar el tweet...`);
         const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-        const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+        const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro" });
         
         try {
           const prompt = `Eres un experto en marketing de startups tecnológicas y criptomonedas (degens). Tu trabajo es tomar mensajes aburridos de commits de código y convertirlos en tweets cortos, virales, y emocionantes (máximo 200 caracteres, SIN HASHTAGS aburridos). Siempre menciona de forma ingeniosa que los fundadores están construyendo sin parar. Usa emojis.\n\nConvierte este commit en un tweet:\nRepositorio: ${repoName}\nAutor: ${author}\nCommit: "${commitMessage}"`;

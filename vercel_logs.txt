@@ -1,0 +1,6 @@
+Vercel CLI 50.17.1
+Retrieving project…
+Resolving deployment "gitshill.vercel.app"
+Streaming logs for deployment dpl_3x49hQEaPNrhkDCX9tT5j5W8gwpW starting from 12:33:39.80
+
+waiting for new logs...

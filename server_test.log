@@ -1,0 +1,44 @@
+
+> gitshill@0.1.0 dev
+> next dev
+
+▲ Next.js 16.2.4 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://192.168.0.13:3000
+- Environments: .env.local
+✓ Ready in 362ms
+
+
+
+🟢 [WEBHOOK] ¡Nuevo Commit Detectado!
+- Repositorio: pump-fun-bot
+- Autor: David
+- Mensaje: fix: resolved memory leak in the buyback smart contract and optimized gas fees!
+
+🧠 Conectando con Gemini (Google) para redactar el tweet...
+❌ Error de Gemini: Error: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent: [404 Not Found] models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.
+    at async POST (src/app/api/webhook/route.ts:32:26)
+  30 |           const prompt = `Eres un experto en marketing de startups tecnológicas y criptomo...
+  31 |           
+> 32 |           const result = await model.generateContent(prompt);
+     |                          ^
+  33 |           const aiGeneratedText = result.response.text().trim();
+  34 |           finalTweetText = `${aiGeneratedText}\n\n$SHILL Buyback & Burn incoming 🔥`;
+  35 |         } catch (aiError) { {
+  status: 404,
+  statusText: 'Not Found',
+  errorDetails: undefined
+}
+
+🐦 [TWEET FINAL]:
+🚀 The dev team just shipped an update to pump-fun-bot!
+
+"fix: resolved memory leak in the buyback smart contract and optimized gas fees!"
+
+Built by David. $SHILL buyback & burn incoming! 🔥
+
+
+📡 Conectando con la API de X...
+✅ ¡Tweet publicado exitosamente en X!
+ POST /api/webhook 200 in 1441ms (next.js: 366ms, application-code: 1075ms)
+[?25h
