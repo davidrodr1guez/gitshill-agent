@@ -23,11 +23,13 @@ export default function Home() {
         </p>
 
         <div className="flex flex-col sm:flex-row gap-4 w-full justify-center">
-          <button className="px-8 py-4 bg-neon text-background font-bold rounded-lg hover:bg-green-400 transition-all shadow-[0_0_20px_rgba(57,255,20,0.3)] hover:shadow-[0_0_30px_rgba(57,255,20,0.5)] flex items-center justify-center gap-2">
-            Install on GitHub
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-          </button>
-          <a href="https://pump.fun" target="_blank" rel="noreferrer" className="px-8 py-4 bg-surface text-foreground font-bold rounded-lg border border-gray-800 hover:border-gray-600 transition-all">
+          <form action="/api/auth/signin/twitter" method="POST">
+            <button type="submit" className="px-8 py-4 w-full sm:w-auto bg-neon text-background font-bold rounded-lg hover:bg-green-400 transition-all shadow-[0_0_20px_rgba(57,255,20,0.3)] hover:shadow-[0_0_30px_rgba(57,255,20,0.5)] flex items-center justify-center gap-2">
+              <svg viewBox="0 0 24 24" aria-hidden="true" className="w-5 h-5 fill-current"><g><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 22.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.007 4.126H5.078z"></path></g></svg>
+              Sign in with X
+            </button>
+          </form>
+          <a href="https://pump.fun" target="_blank" rel="noreferrer" className="px-8 py-4 bg-surface text-foreground font-bold rounded-lg border border-gray-800 hover:border-gray-600 transition-all flex items-center justify-center">
             Buy $SHILL on Pump.fun
           </a>
         </div>
