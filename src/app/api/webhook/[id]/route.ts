@@ -3,13 +3,15 @@ import { TwitterApi } from 'twitter-api-v2';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import { supabaseAdmin } from '@/lib/supabase';
 
-export async function POST(req: Request, { params }: { params: { id: string } }) {
+export async function POST(req: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
+    const { id } = await params;
+    
     // 1. Buscar a qué usuario pertenece este webhook
     const { data: webhook } = await supabaseAdmin
       .from('webhooks')
       .select('user_id')
-      .eq('id', params.id)
+      .eq('id', id)
       .single();
 
     if (!webhook) {
