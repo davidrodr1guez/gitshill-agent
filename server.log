@@ -1,0 +1,90 @@
+
+> gitshill@0.1.0 dev
+> next dev
+
+▲ Next.js 16.2.4 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://192.168.0.13:3000
+- Environments: .env.local
+✓ Ready in 282ms
+
+
+
+🟢 [WEBHOOK] ¡Nuevo Commit Detectado!
+- Repositorio: pump-fun-bot
+- Autor: David
+- Mensaje: fix: resolved memory leak in the buyback smart contract and optimized gas fees!
+
+🧠 Conectando con Gemini (Google) para redactar el tweet...
+❌ Error de Gemini: Error: [GoogleGenerativeAI Error]: Error fetching from https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent: [404 Not Found] models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available models and their supported methods.
+    at async POST (src/app/api/webhook/route.ts:32:26)
+  30 |           const prompt = `Eres un experto en marketing de startups tecnológicas y criptomo...
+  31 |           
+> 32 |           const result = await model.generateContent(prompt);
+     |                          ^
+  33 |           const aiGeneratedText = result.response.text().trim();
+  34 |           finalTweetText = `${aiGeneratedText}\n\n$SHILL Buyback & Burn incoming 🔥`;
+  35 |         } catch (aiError) { {
+  status: 404,
+  statusText: 'Not Found',
+  errorDetails: undefined
+}
+
+🐦 [TWEET FINAL]:
+🚀 The dev team just shipped an update to pump-fun-bot!
+
+"fix: resolved memory leak in the buyback smart contract and optimized gas fees!"
+
+Built by David. $SHILL buyback & burn incoming! 🔥
+
+
+📡 Conectando con la API de X...
+❌ Error al publicar en X: Error: Request failed with code 402
+    at ignore-listed frames {
+  error: true,
+  type: 'response',
+  code: 402,
+  headers: {
+    date: 'Tue, 05 May 2026 03:10:08 GMT',
+    'content-type': 'application/json; charset=utf-8',
+    'content-length': '185',
+    connection: 'keep-alive',
+    perf: '7402827104',
+    server: 'cloudflare envoy',
+    'api-version': '2.162',
+    'cache-control': 'no-cache, no-store, max-age=0',
+    'set-cookie': [
+      'guest_id_marketing=v1%3A177795060821003488; Max-Age=63072000; Expires=Thu, 04 May 2028 03:10:08 GMT; Path=/; Domain=.x.com; Secure; SameSite=None',
+      'guest_id_ads=v1%3A177795060821003488; Max-Age=63072000; Expires=Thu, 04 May 2028 03:10:08 GMT; Path=/; Domain=.x.com; Secure; SameSite=None',
+      'personalization_id="v1_sSpS+Pgl2xLRbebE91/Fow=="; Max-Age=63072000; Expires=Thu, 04 May 2028 03:10:08 GMT; Path=/; Domain=.x.com; Secure; SameSite=None',
+      'guest_id=v1%3A177795060821003488; Max-Age=63072000; Expires=Thu, 04 May 2028 03:10:08 GMT; Path=/; Domain=.x.com; Secure; SameSite=None',
+      '__cf_bm=0j9f0_tfbNP9TiAzOqQlkHdGg2rtX6kPHRlW2GazVpY-1777950608.159909-1.0.1.1-lSiA_0KxZLzLn.4M.tbDMEdjGr1mHe6Rmdmqmy_bdHDoEptEWar02C98V5vgxNggB_flQu4jhsh_gHZ_voDwx_32yXHuhMFkeEac.61KltsMT11Z55JH6c.E_vJvMrGz; HttpOnly; Secure; Path=/; Domain=x.com; Expires=Tue, 05 May 2026 03:40:08 GMT'
+    ],
+    'x-access-level': 'read-write',
+    'x-frame-options': 'SAMEORIGIN',
+    'content-encoding': 'gzip',
+    'x-transaction-id': 'f67f74f92df8ae84',
+    'x-xss-protection': '0',
+    'x-rate-limit-limit': '1080000',
+    'x-rate-limit-reset': '1777951508',
+    'content-disposition': 'attachment; filename=json.json',
+    'x-content-type-options': 'nosniff',
+    'x-rate-limit-remaining': '1079999',
+    'x-response-time': '22',
+    'origin-cf-ray': '9f6c8ce4fc0bbd01-ATL',
+    'strict-transport-security': 'max-age=631138519; includeSubdomains',
+    'x-served-by': 't4_a',
+    vary: 'accept-encoding',
+    'cf-cache-status': 'DYNAMIC',
+    'cf-ray': '9f6c8ce4fc0bbd01-BOG'
+  },
+  rateLimit: { limit: 1080000, remaining: 1079999, reset: 1777951508 },
+  data: {
+    account_id: 2051494237233877000,
+    title: 'CreditsDepleted',
+    detail: 'Your enrolled account [2051494237233876997] does not have any credits to fulfill this request.',
+    type: 'https://api.twitter.com/2/problems/credits'
+  }
+}
+ POST /api/webhook 200 in 1236ms (next.js: 280ms, application-code: 955ms)
+[?25h
