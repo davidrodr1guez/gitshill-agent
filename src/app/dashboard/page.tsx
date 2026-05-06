@@ -8,7 +8,7 @@ export default async function Dashboard() {
     redirect("/");
   }
 
-  // @ts-ignore
+  // @ts-expect-error Session user typing
   const twitterId = session.user.twitterId;
 
   // Obtener el webhook único

@@ -35,15 +35,16 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
       const author = payload.commits[0]?.author.name || payload.pusher.name;
       const repoName = payload.repository.name;
 
-      const allCommitMessages = payload.commits.map((c: any) => c.message).join(" | ");
+      const allCommitMessages = payload.commits.map((c: unknown) => (c as {message: string}).message).join(" | ");
       const addedFiles = new Set<string>();
       const modifiedFiles = new Set<string>();
       const removedFiles = new Set<string>();
       
-      payload.commits.forEach((c: any) => {
-        c.added?.forEach((f: string) => addedFiles.add(f));
-        c.modified?.forEach((f: string) => modifiedFiles.add(f));
-        c.removed?.forEach((f: string) => removedFiles.add(f));
+      payload.commits.forEach((c: unknown) => {
+        const commit = c as { added?: string[], modified?: string[], removed?: string[] };
+        commit.added?.forEach((f: string) => addedFiles.add(f));
+        commit.modified?.forEach((f: string) => modifiedFiles.add(f));
+        commit.removed?.forEach((f: string) => removedFiles.add(f));
       });
 
       console.log(`\n🟢 [WEBHOOK] Push de ${author} para cliente @${user.username}`);
@@ -61,7 +62,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
           const result = await model.generateContent(prompt);
           const aiGeneratedText = result.response.text().trim();
           finalTweetText = `${aiGeneratedText}\n\n$SHILL Buyback & Burn incoming 🔥`;
-        } catch (error) {
+        } catch {
           finalTweetText = `🚀 Just shipped ${payload.commits.length} updates to ${repoName}!\n\nBuilt by ${author}. $SHILL buyback & burn incoming! 🔥`;
         }
       } else {

@@ -14,9 +14,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       if (account && profile) {
         const { supabaseAdmin } = await import('@/lib/supabase');
         
-        // @ts-ignore
+        // @ts-expect-error Profile data typing
         const twitterId = profile.data.id;
-        // @ts-ignore
+        // @ts-expect-error Profile data typing
         const username = profile.data.username;
 
         // Guardar/Actualizar en Supabase
@@ -44,9 +44,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       return token
     },
     async session({ session, token }) {
-      // @ts-ignore
+      // @ts-expect-error Session user typing
       session.user.twitterId = token.twitterId;
-      // @ts-ignore
+      // @ts-expect-error Session user typing
       session.user.username = token.username;
       return session
     }
