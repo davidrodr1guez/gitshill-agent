@@ -6,40 +6,51 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     TwitterProvider({
       clientId: process.env.TWITTER_CLIENT_ID!,
       clientSecret: process.env.TWITTER_CLIENT_SECRET!,
+      authorization: {
+        url: "https://twitter.com/i/oauth2/authorize",
+        params: {
+          scope: "users.read tweet.read tweet.write offline.access",
+        },
+      },
     })
   ],
   callbacks: {
     async jwt({ token, account, profile }) {
-      // Cuando el usuario inicia sesión por primera vez
       if (account && profile) {
-        const { supabaseAdmin } = await import('@/lib/supabase');
-        
-        // @ts-expect-error Profile data typing
-        const twitterId = profile.data.id;
-        // @ts-expect-error Profile data typing
-        const username = profile.data.username;
-
-        // Guardar/Actualizar en Supabase
-        await supabaseAdmin.from('users').upsert({
-          id: twitterId,
-          username: username,
-          twitter_access_token: account.access_token,
-          twitter_refresh_token: account.refresh_token,
-        });
-        
-        // Crear un Webhook único si no existe
-        const { data: existingWebhook } = await supabaseAdmin
-          .from('webhooks')
-          .select('id')
-          .eq('user_id', twitterId)
-          .single();
+        try {
+          const { supabaseAdmin } = await import('@/lib/supabase');
           
-        if (!existingWebhook) {
-          await supabaseAdmin.from('webhooks').insert({ user_id: twitterId });
+          // @ts-expect-error Profile data typing
+          const twitterId = profile.data.id;
+          // @ts-expect-error Profile data typing
+          const username = profile.data.username;
+
+          // Guardar/Actualizar en Supabase
+          const { error: upsertError } = await supabaseAdmin.from('users').upsert({
+            id: twitterId,
+            username: username,
+            twitter_access_token: account.access_token,
+            twitter_refresh_token: account.refresh_token,
+          });
+          
+          if (upsertError) console.error("Supabase Upsert Error:", upsertError);
+
+          // Crear un Webhook único si no existe
+          const { data: existingWebhook } = await supabaseAdmin
+            .from('webhooks')
+            .select('id')
+            .eq('user_id', twitterId)
+            .single();
+            
+          if (!existingWebhook) {
+            await supabaseAdmin.from('webhooks').insert({ user_id: twitterId });
+          }
+          
+          token.twitterId = twitterId;
+          token.username = username;
+        } catch (error) {
+          console.error("JWT Callback Error:", error);
         }
-        
-        token.twitterId = twitterId;
-        token.username = username;
       }
       return token
     },
