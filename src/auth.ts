@@ -6,7 +6,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     TwitterProvider({
       clientId: process.env.TWITTER_CLIENT_ID!,
       clientSecret: process.env.TWITTER_CLIENT_SECRET!,
-      version: "2.0", // Twitter OAuth 2.0 (PKCE)
     })
   ],
   callbacks: {
