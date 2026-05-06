@@ -1,4 +1,11 @@
+import { signIn } from "@/auth";
+
 export default function Home() {
+  const handleSignIn = async () => {
+    "use server";
+    await signIn("twitter", { redirectTo: "/dashboard" });
+  };
+
   return (
     <main className="min-h-screen bg-background text-foreground flex flex-col items-center pt-24 px-4 sm:px-8 relative overflow-hidden">
       {/* Background decorations */}
@@ -23,7 +30,7 @@ export default function Home() {
         </p>
 
         <div className="flex flex-col sm:flex-row gap-4 w-full justify-center">
-          <form action="/api/auth/signin/twitter" method="POST">
+          <form action={handleSignIn}>
             <button type="submit" className="px-8 py-4 w-full sm:w-auto bg-neon text-background font-bold rounded-lg hover:bg-green-400 transition-all shadow-[0_0_20px_rgba(57,255,20,0.3)] hover:shadow-[0_0_30px_rgba(57,255,20,0.5)] flex items-center justify-center gap-2">
               <svg viewBox="0 0 24 24" aria-hidden="true" className="w-5 h-5 fill-current"><g><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 22.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.007 4.126H5.078z"></path></g></svg>
               Sign in with X
