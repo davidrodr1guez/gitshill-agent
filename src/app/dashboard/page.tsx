@@ -9,23 +9,52 @@ export default async function Dashboard() {
   }
 
   // @ts-expect-error Session user typing
-  const twitterId = session.user.twitterId;
+  const twitterId = session.user.twitterId as string | undefined;
+  const userName = session.user.name || "Usuario";
 
-  // Obtener el webhook único
-  const { data: webhook } = await supabaseAdmin
-    .from('webhooks')
-    .select('id')
-    .eq('user_id', twitterId)
-    .single();
+  let webhookUrl = "Error: No se pudo obtener tu ID de Twitter. Intenta cerrar sesión y volver a iniciar.";
 
-  const webhookUrl = webhook 
-    ? `https://gitshill.vercel.app/api/webhook/${webhook.id}`
-    : "Generando...";
+  if (twitterId) {
+    // Verificar que el usuario existe en Supabase, si no crearlo
+    const { data: existingUser } = await supabaseAdmin
+      .from('users')
+      .select('id')
+      .eq('id', twitterId)
+      .single();
+
+    if (!existingUser) {
+      await supabaseAdmin.from('users').upsert({
+        id: twitterId,
+        // @ts-expect-error Session user typing
+        username: session.user.username || userName,
+      });
+    }
+
+    // Obtener o crear el webhook único
+    let { data: webhook } = await supabaseAdmin
+      .from('webhooks')
+      .select('id')
+      .eq('user_id', twitterId)
+      .single();
+
+    if (!webhook) {
+      const { data: newWebhook } = await supabaseAdmin
+        .from('webhooks')
+        .insert({ user_id: twitterId })
+        .select('id')
+        .single();
+      webhook = newWebhook;
+    }
+
+    webhookUrl = webhook
+      ? `https://gitshill.vercel.app/api/webhook/${webhook.id}`
+      : "Error al generar webhook. Recarga la página.";
+  }
 
   return (
     <div className="min-h-screen bg-background text-foreground flex flex-col items-center pt-24 px-4 sm:px-8">
       <div className="max-w-3xl w-full bg-surface p-8 rounded-2xl border border-gray-800">
-        <h1 className="text-3xl font-bold mb-2">Bienvenido, {session.user.name}</h1>
+        <h1 className="text-3xl font-bold mb-2">Bienvenido, {userName}</h1>
         <p className="text-gray-400 mb-8">Esta es tu consola de GitShill. Conecta tu repositorio de GitHub para empezar a twittear automáticamente.</p>
         
         <div className="bg-black p-6 rounded-xl border border-neon/30 relative">
