@@ -1,18 +1,34 @@
 import NextAuth from "next-auth"
-import Twitter from "next-auth/providers/twitter"
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   debug: true,
   providers: [
-    Twitter({
+    {
+      id: "twitter",
+      name: "Twitter",
+      type: "oauth",
       clientId: process.env.TWITTER_CLIENT_ID!,
       clientSecret: process.env.TWITTER_CLIENT_SECRET!,
       authorization: {
+        url: "https://x.com/i/oauth2/authorize",
         params: {
           scope: "users.read tweet.read tweet.write offline.access",
+          code_challenge_method: "S256",
         },
       },
-    })
+      token: "https://api.x.com/2/oauth2/token",
+      userinfo: "https://api.x.com/2/users/me",
+      profile(profile: { data: { id: string; name: string; username: string; profile_image_url?: string } }) {
+        return {
+          id: profile.data.id,
+          name: profile.data.name,
+          email: null,
+          image: profile.data.profile_image_url,
+        };
+      },
+      checks: ["pkce", "state"],
+      style: { bg: "#1DA1F2", text: "#fff" },
+    }
   ],
   callbacks: {
     async jwt({ token, account, profile }) {
